@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const CarSchema = new mongoose.Schema({
     model:{
@@ -16,6 +17,17 @@ const CarSchema = new mongoose.Schema({
     }
 });
 
+const pointSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ['Point'],
+        required: true
+    },
+    coordinates: {
+        type: [Number],
+        required: true
+    }
+});
 
 const DriversSchema = new mongoose.Schema({
     first_name: {
@@ -41,7 +53,13 @@ const DriversSchema = new mongoose.Schema({
         minlength: 6,
         select: false,
     },
-    photo: {
+    resetPasswordToken: String,
+    resetPasswordExpire: {
+        type: Date,
+        default: Date.now,
+        expires: 86400,
+    },
+    drivers_photo: {
         data: Buffer,
         contentType: String,
         required: [true, "Please upload your photo"]
@@ -49,6 +67,10 @@ const DriversSchema = new mongoose.Schema({
     drivers_licence_no: {
         type: String,
         required: [true, "Your driver licence"]
+    },
+    drivers_current_location: {
+        type: pointSchema,
+        required: true
     },
     car: [CarSchema],
 });
@@ -69,11 +91,16 @@ DriversSchema.methods.matchPassword = async function(password) {
 
 DriversSchema.methods.getSignedJwtToken = function () {
     return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: process.env.ACCESS_EXPIRE,
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRE,
     });
 };
 
+DriversSchema.methods.getResetPasswordToken = function () {
+    let resetToken = crypto.randomBytes(32).toString("hex");
 
+    this.resetPasswordToken = await bcrypt.hash(resetToken, Number(10));
+    return resetToken;
+}
 
 
 module.exports = mongoose.model('Driver', DriversSchema);
