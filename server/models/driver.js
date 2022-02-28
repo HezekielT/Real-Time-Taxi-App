@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
 
 const CarSchema = new mongoose.Schema({
     model:{
@@ -9,9 +11,8 @@ const CarSchema = new mongoose.Schema({
         type: String,
         required: [true]
     },
-    insurance: {
+    insurance_company: {
         type: String,
-        required: [true]
     }
 });
 
@@ -52,4 +53,27 @@ const DriversSchema = new mongoose.Schema({
     car: [CarSchema],
 });
 
-module.exports = DriversSchema;
+DriversSchema.pre('save', async function(done) {
+    if (!this.isModified("password")) {
+        done();
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    done();
+});
+
+DriversSchema.methods.matchPassword = async function(password) {
+    return await bcrypt.compare(password, this.password);
+};
+
+DriversSchema.methods.getSignedJwtToken = function () {
+    return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: process.env.ACCESS_EXPIRE,
+    });
+};
+
+
+
+
+module.exports = mongoose.model('Driver', DriversSchema);
