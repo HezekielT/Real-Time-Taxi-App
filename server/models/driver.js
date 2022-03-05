@@ -72,6 +72,7 @@ const DriversSchema = new mongoose.Schema({
         type: pointSchema,
         required: true
     },
+    drivers_rating: [Number],
     car: [CarSchema],
 });
 

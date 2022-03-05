@@ -8,7 +8,16 @@ app.use(express.json());
 
 const dbo = require("./db/conn");
 
+// const driverList =[{
+//     first_name: 'abebe',
+//     last_name: 'lema',
+//     email: 'abebeLema@gmail.com',
+//     password: 'abeebalema',
+    
+// }]
+
 app.listen(port, () => {
     dbo.mongoClient();
     console.log(`Server is running on port: ${port}`);
 });
+
