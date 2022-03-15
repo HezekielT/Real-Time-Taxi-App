@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 require("dotenv").config({ path: "./config.env" });
 const Db = process.env.ATLAS_URI;
 
+const connectDB = async () => {
+    await mongoose.connect(Db, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
 
-module.exports = {
-    mongoClient : function (){
-        const conn = mongoose.createConnection(Db, {
-            useNewUrlParser: true
-          });
-        
-        //console.log(conn.readyState);
-    }
+    console.log("Connected to MongoDB")
 };
+
+module.exports = connectDB;
