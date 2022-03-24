@@ -1,12 +1,10 @@
 import React from "react";
-import LoginForm from "./components/login";
-import Home from "./components/landing_page";
-import RegistrationForm from "./components/register_driver";
+import SignUp from "./components/Registeration/driver_form";
 
 const App = () => {
   return (
     <div>
-      <RegistrationForm />
+      <SignUp />
     </div>
   );
 }

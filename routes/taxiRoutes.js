@@ -1,5 +1,5 @@
 const express = require('express');
-const dbo = require("../server/db/conn");
+const Driver = require("../server/models/driver");
 const driverRouter = express.Router();
 
 // driverRouter.route('/').get(function(req, res){
@@ -7,7 +7,29 @@ const driverRouter = express.Router();
 
 // });
 
-// driverRouter.route('/register').post();
+driverRouter.route('/register').post(async function(req, res, next) {
+    const { first_name, last_name, drivers_licence_no, drivers_photo,
+         email, phoneno, password, model, plate_number, insurance_company } = req.body;
+    try{
+        await Driver.create({
+            first_name,
+            last_name,
+            email,
+            phoneno,
+            password,
+            drivers_photo,
+            drivers_licence_no,
+            car:{
+                model,
+                plate_number,
+                insurance_company,
+            }
+        });
+        console.log("Success");
+    } catch(err) {
+        console.log(err);
+    }
+});
 
 driverRouter.route('/login').get(function(req, res){
     
