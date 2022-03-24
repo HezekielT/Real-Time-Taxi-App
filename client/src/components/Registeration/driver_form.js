@@ -76,7 +76,7 @@ export default function SignUp() {
     };
 
     async function onSubmit(e){
-        console.log("Good Job")
+        console.log("Good Job man")
         e.preventDefault();
         const config = {
             header: {

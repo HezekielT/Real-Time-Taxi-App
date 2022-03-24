@@ -23,7 +23,6 @@ const PersonalInfo = (props) => {
                 })
             }
         )
-        //setUserImg(value);
     }
 
     return (

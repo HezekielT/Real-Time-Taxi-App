@@ -33,14 +33,7 @@ driverRouter.route('/register').post(async function(req, res, next) {
 
 driverRouter.route('/login').get(function(req, res){
     
-let db_connect = dbo.getDb("myFirstDatabase");
-    db_connect
-    .collection("records")
-    .find({})
-    .toArray(function (err, result){
-        if (err) throw err;
-        res.json(result);
-    });
+
 }
 );
 

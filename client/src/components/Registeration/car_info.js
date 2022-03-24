@@ -2,6 +2,7 @@ import { Typography, Grid, TextField } from "@mui/material"
 import React from "react"
 
 const CarInfo = (props) => {
+    
     return (
         <React.Fragment>
             <Typography>About Your Car</Typography>
