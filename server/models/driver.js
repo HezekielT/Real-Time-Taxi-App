@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
@@ -35,6 +35,10 @@ const DriversSchema = new mongoose.Schema({
             "Please provide a valid email",
         ],
     },
+    phoneno: {
+        type: String,
+        required: [true, "Please provide your phone number!"],
+    },
     password: {
         type: String,
         required: [true, "Please add a password"],
@@ -48,20 +52,21 @@ const DriversSchema = new mongoose.Schema({
         expires: 86400,
     },
     drivers_photo: {
-        data: Buffer,
-        contentType: String,
+        type: String,
         required: [true, "Please upload your photo"]
     },
     drivers_licence_no: {
         type: String,
         required: [true, "Your driver licence"]
     },
-    drivers_current_location: {
-        type: pointSchema,
-        required: true
-    },
     drivers_rating: [Number],
-    car: [CarSchema],
+    car: CarSchema,
+    // drivers_current_location: {
+    //     type: pointSchema,
+    //     required: true
+    // },
+    
+    
 });
 
 DriversSchema.pre('save', async function(done) {
@@ -84,11 +89,25 @@ DriversSchema.methods.getSignedJwtToken = function () {
     });
 };
 
-DriversSchema.methods.getResetPasswordToken = function () {
+DriversSchema.methods.getResetPasswordToken = async function () {
     let resetToken = crypto.randomBytes(32).toString("hex");
 
     this.resetPasswordToken = await bcrypt.hash(resetToken, Number(10));
     return resetToken;
+}
+
+DriversSchema.methods.getCalculatedRating = function () {
+    let sum = 0;
+    function aver(value) {
+        sum+=value;
+    }
+    if(this.drivers_rating.length <= 50){
+        return "N/A";
+    }
+    else {
+        this.drivers_rating.forEach(aver);
+        return (sum/this.drivers_rating.length).toString;
+    }
 }
 
 
