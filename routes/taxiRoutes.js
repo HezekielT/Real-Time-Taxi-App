@@ -1,11 +1,18 @@
 const express = require('express');
 const Driver = require("../server/models/driver");
 const driverRouter = express.Router();
-
+const passport = require('passport');
+const initializePassport = require('./config-passport')
 // driverRouter.route('/').get(function(req, res){
 //     //Ask permission for user's location as 
 
 // });
+
+
+initializePassport(passport, 
+    email => Driver.findOne({ email }),
+    id => Driver.findOne({ id })
+);
 
 driverRouter.route('/register').post(async function(req, res, next) {
     const { first_name, last_name, drivers_licence_no, drivers_photo,
@@ -26,16 +33,18 @@ driverRouter.route('/register').post(async function(req, res, next) {
             }
         });
         console.log("Success");
+        res.statusCode(201).send();
     } catch(err) {
         console.log(err);
     }
 });
 
-driverRouter.route('/login').get(function(req, res){
-    
-
-}
-);
+driverRouter.route('/login').post(
+    passport.authenticate('local', {
+        successRedirect : '/',
+        failureRedirect: '/login',
+        failureFlash: true,
+}));
 
 // driverRouter.route('/Home').get();
 

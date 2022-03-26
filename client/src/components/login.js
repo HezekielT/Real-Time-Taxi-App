@@ -48,13 +48,13 @@ export default function SignIn() {
           "Content-Type": "application/json",
       },
     };
-    const loginVal = {
-      email: form.email,
-      password: form.password
-    }
-    await axios.post(
+    
+    const x = await axios.post(
       "http://localhost:5000/login/",
-      { loginVal },
+      { 
+        email: form.email,
+        password: form.password,
+       },
       config
     )
     .then(function (response){
