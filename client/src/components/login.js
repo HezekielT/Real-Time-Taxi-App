@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const axios = require("axios");
 
@@ -32,6 +33,9 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -48,26 +52,28 @@ export default function SignIn() {
           "Content-Type": "application/json",
       },
     };
-    const loginVal = {
-      email: form.email,
-      password: form.password
-    }
+    
     await axios.post(
       "http://localhost:5000/login/",
-      { loginVal },
+      { 
+        email: form.email,
+        password: form.password,
+      },
       config
     )
     .then(function (response){
-      console.log(response);
+      console.log(response)
+      localStorage.setItem("authToken", response.data.token);
+      navigate('/dashboard',{state:{first_name: response.data.user.first_name}});
     })
     .catch(function (error) {
       console.log(error);
     })
-    
+    //console.log(JSON.parse(responseVal[0]));
   };
-
+  const checkVal = () => {if(location.pathname === "/login"){console.log("yes bro")}}
   return (
-    <ThemeProvider theme={theme}>
+    <React.Fragment>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -128,7 +134,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link onClick={() => {navigate("/register")}} variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
@@ -137,6 +143,6 @@ export default function SignIn() {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </ThemeProvider>
+      </React.Fragment>
   );
 }

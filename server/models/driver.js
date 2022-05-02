@@ -29,7 +29,7 @@ const DriversSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, "Please provide your email address!"],
-        unique: false,
+        unique: true,
         match: [
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ , 
             "Please provide a valid email",
@@ -79,14 +79,15 @@ DriversSchema.pre('save', async function(done) {
     done();
 });
 
-DriversSchema.methods.matchPassword = async function(password) {
+DriversSchema.methods.matchPassword = async function(password){
     return await bcrypt.compare(password, this.password);
-};
+ };
 
 DriversSchema.methods.getSignedJwtToken = function () {
-    return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRE,
-    });
+    return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET);
+    // jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
+    //     expiresIn: process.env.ACCESS_TOKEN_EXPIRE,
+    // });
 };
 
 DriversSchema.methods.getResetPasswordToken = async function () {

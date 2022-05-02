@@ -40,6 +40,7 @@ const Account = (props) => {
                         label="Password"
                         fullWidth
                         autoComplete="password"
+                        type="password"
                         variant="standard"
                         value={props.form.password}
                         onChange={(e) => props.onChange([props.form.password = e.target.value])}
@@ -54,6 +55,7 @@ const Account = (props) => {
                         label="Confirm Password"
                         fullWidth
                         autoComplete="confirm password"
+                        type="password"
                         variant="standard"
                         value={props.form.confirm_password}
                         onChange={(e) => props.onChange([props.form.confirm_password = e.target.value])}
