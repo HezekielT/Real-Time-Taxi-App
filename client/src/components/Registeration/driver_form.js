@@ -81,6 +81,9 @@ export default function SignUp() {
         const config = {
             header: {
                 "Content-Type": "application/json",
+                cors: {
+                    origin: ['http://localhost:3000']
+                }
             },
         };
         
