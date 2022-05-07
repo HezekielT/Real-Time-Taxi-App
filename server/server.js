@@ -38,13 +38,11 @@ app.listen(port, () => {
 });
 let interval;
 io.on("connection", (socket) => {
-    console.log("New Client Connected");
-    if (interval) {
-        clearInterval(interval);
-    }
-    interval = setInterval(() => getApiAndEmit(socket), 1000);
+    socket.on("AvailableDriver", (string, obj) => {
+        io.emit("Ride-Request",string, obj)
+    })
     socket.on("disconnect", () => {
-        console.log("Client Disconnected");
+        //console.log("Client Disconnected");
         clearInterval(interval);
     });
 });
