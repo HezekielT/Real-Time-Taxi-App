@@ -4,12 +4,36 @@ import { Box, Button, Container, createTheme,
 import { Timeline, TimelineItem, TimelineSeparator, 
     TimelineConnector, TimelineContent, TimelineDot } from '@mui/lab';
 
-import React from 'react';
+import React, {useState} from 'react';
+import socketIOClient from "socket.io-client";
+import { CssBaseline } from '@mui/material';
 
+const ENDPOINT = "http://127.0.0.1:5001";
 const mdTheme = createTheme();
+// how to set 
 function Home() {
+
+    const [bothLocation, setBothLocation] = useState({
+        pickUp: "",
+        destination: ""
+    })
+    function getLocationInput(value) {
+        return setBothLocation((prev) => {
+            return {...prev, ...value}
+        })
+    }
+    function handleRequest(e) {
+        e.preventDefault();
+        const socket = socketIOClient(ENDPOINT);
+        const txt = "I want a ride";
+        socket.on("connect", () => {
+            console.log("Connected to blab")
+            socket.emit("AvailableDriver", socket.id, bothLocation);
+        })
+    }
     return (
         <ThemeProvider theme={mdTheme}>
+            <CssBaseline />
             <Box
                 component="main"
                 sx={{
@@ -43,10 +67,13 @@ function Home() {
                                         </TimelineSeparator>
                                         <TimelineContent sx={{mt: -2}}>
                                             <TextField
+                                                margin="normal"
                                                 fullWidth
                                                 id="pickUp"
                                                 label="Pick Up Location: "
                                                 name="pickuplocation"
+                                                value={bothLocation.pickUp}
+                                                onChange={(e) => {getLocationInput({pickUp: e.target.value})}}
                                                 autoFocus
                                             />
                                         </TimelineContent>
@@ -57,10 +84,13 @@ function Home() {
                                         </TimelineSeparator>
                                         <TimelineContent sx={{mt: -2}}>
                                             <TextField
+                                                margin="normal"
                                                 fullWidth
                                                 id="destination"
                                                 label="Destination Location: "
                                                 name="dest_location"
+                                                value={bothLocation.destination}
+                                                onChange={(e) => {getLocationInput({destination: e.target.value})}}
                                             />
                                         </TimelineContent>
                                     </TimelineItem>
@@ -68,7 +98,7 @@ function Home() {
                                 <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                                     <Button
                                         type="submit"
-                                        
+                                        onClick={handleRequest}
                                         variant="contained"
                                         sx={{ mt: -4, mb: 4, }}
                                     >

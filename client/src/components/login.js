@@ -35,7 +35,7 @@ const theme = createTheme();
 export default function SignIn() {
   const navigate = useNavigate();
   const location = useLocation();
-
+  
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -64,7 +64,8 @@ export default function SignIn() {
     .then(function (response){
       console.log(response)
       localStorage.setItem("authToken", response.data.token);
-      navigate('/dashboard',{state:{first_name: response.data.user.first_name}});
+      navigate('/dashboard',{state:{first_name: response.data.user.first_name, profile_photo: response.data.user.drivers_photo}});
+      
     })
     .catch(function (error) {
       console.log(error);
