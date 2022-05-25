@@ -1,18 +1,20 @@
 import React from "react";
-import { BrowserRouter as BRouter, Outlet, Routes} from 'react-router-dom';
-import SignUp from "./components/Registeration/driver_form";
-import SignIn from "./components/login";
-import Home from "./components/landing_page";
-import NavBar from "./components/NavBar";
+import { Outlet } from 'react-router-dom';
 import Navigator from "./components/Navigator";
-import { Container, Grid } from "@mui/material";
-
+import { RequestsProvider } from './contexts/RequestsProvider'
+import { ResponsesProvider } from "./contexts/ResponsesProvider";
+import { SocketProvider } from "./contexts/SocketProvider";
 const App = () => {
+  
   return (
-    <Grid>
-      <Navigator />
-      <Outlet />
-    </Grid>
+    <SocketProvider>
+      <ResponsesProvider>
+        <RequestsProvider>
+            <Navigator />
+            <Outlet />
+        </RequestsProvider>
+      </ResponsesProvider>
+    </SocketProvider>
     //<SignIn />
        
   );

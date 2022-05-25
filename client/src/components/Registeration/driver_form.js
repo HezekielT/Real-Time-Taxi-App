@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AppBar, Button, Container, CssBaseline, Link, Paper, Step, StepLabel, Stepper, Toolbar, Typography, Box } from "@mui/material";
 import Account from "./account";
 import PersonalInfo from "./personal_details";
@@ -6,18 +6,6 @@ import CarInfo from "./car_info";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 const axios = require('axios');
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="www.goal.com">
-                TAXI App
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 const steps = ["Create Account","Personal Details", "Car's Details"];
 
@@ -42,9 +30,10 @@ export default function SignUp() {
         cars_insurance_company: "",
         isError: false,
         message: "",
-        //current_location: [],
+
     });
 
+    
     function getStepContent(step) {
         switch (step) {
             case 0:
@@ -102,43 +91,26 @@ export default function SignUp() {
                 insurance_company: form.cars_insurance_company,
             },
             config
-        )
-        
-        // try{
-        //     await fetch(
-        //     "http://localhost:5000/register/",{
-        //     method: "POST",
-        //     config,
-        //     body:JSON.stringify(
-        //     { 
-        //         first_name:form.fname, 
-        //         last_name: form.lname, 
-        //         email: form.email, 
-        //         password: form.password, 
-        //         drivers_licence_no: form.driver_licence_no 
-        //     }),}
-        // )}catch(error){ console.log(error);}
-        
+        )        
         
     };
 
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <AppBar
-                position="absolute"
-                color="default"
-                elevation={0}
+            <Box
+                component="main"
                 sx={{
-                    position: 'relative',
-                    borderBottom: (t) => `1px solid ${t.palette.divider}`,
+                    backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                    ? theme.palette.grey[100]
+                    : theme.palette.grey[900],
+                    flexGrow: 1,
+                    height: '83.6vh',
+                    overflow: 'auto'
                 }}
             >
-                <Toolbar>
-                    <Typography variant="h6" color="inherit" noWrap>Izzy Ride</Typography>
-                </Toolbar>
-            </AppBar>
-            <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+                <Container maxWidth="sm" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6}, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center">
                         Sign Up
@@ -181,8 +153,7 @@ export default function SignUp() {
                         )}
                     </React.Fragment>
                 </Paper>
-                <Copyright />
-            </Container>
+            </Container></Box>
         </ThemeProvider>
     )
 

@@ -7,6 +7,7 @@ const Account = (props) => {
             <Typography>Create Account</Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
+                    {props.form.message}
                     <TextField
                         required
                         id="email"
