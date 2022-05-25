@@ -1,23 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Dashboard from './drivers_dashboard';
-import Home from './landing_page';
-import SignIn from './login';
-import MainNavBar from './NavBar';
+import Dashboard from './Dashboard/drivers_dashboard';
+import Home from './Landing/landing_page';
+import SignIn from './Login/login';
+import NavBar from './NavBar';
 import SignUp from './Registeration/driver_form';
-import Temp from './temp';
+import { RequestsProvider } from '../contexts/RequestsProvider'
+import Footer from './Pages/footer';
 
-function Navigator(props) {
+function Navigator() {
+    
     return (
         <Router>
-            <MainNavBar />
+            <NavBar />
             <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/register" element={<SignUp />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/test" element={<Temp />} />
             </Routes>
+            <Footer />
         </Router>
     );
 }
