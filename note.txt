@@ -1,0 +1,9 @@
+when a drivers image is displayed on the passenger phone make it round
+
+display error on your forms
+
+create this private and public routes thing so that people cannot access for example dashboard directly.
+
+add logout functionality.
+
+get comfortable with the basics of react.......

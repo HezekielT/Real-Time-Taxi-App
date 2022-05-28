@@ -77,7 +77,7 @@ export default function SignUp() {
         };
         
         await axios.post(
-            "http://localhost:5000/register",
+            "http://localhost:5001/register",
             {
                 first_name: form.fname,
                 last_name: form.lname,

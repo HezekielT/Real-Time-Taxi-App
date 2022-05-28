@@ -26,7 +26,7 @@ driverRouter.route('/login').post(
 */
 
 
-driverRouter.route('/register').post(async function(req, res, next) {
+driverRouter.route('/register').post(async function(req, res) {
     const { first_name, last_name, drivers_licence_no, drivers_photo,
          email, phoneno, password, model, plate_number, insurance_company } = req.body;
     try{
@@ -48,27 +48,27 @@ driverRouter.route('/register').post(async function(req, res, next) {
         res.status(201).send();
         //res.redirect('/login');
     } catch(err) {
-        next(err);
+        res.status(400).json({ message: err.message });
     }
 });
 
-driverRouter.route('/login').post(async function(req, res, next) {
+driverRouter.route('/login').post(async function(req, res) {
     const { email, password } = req.body;
 
     if(!email || !password){
-        return next(null, false, { message: "Please provide an email and a password!" })
+        return res.status(404).json({ message: "Please provide an email and/or a password!" })
     }
     try{
         const user = await Driver.findOne({ email }).select("+password");
         if(!user){
-            return next(null, false, { message: "No user is found" })
+            return res.status(404).json({ message: "No user is found" })
         }
         if(!(await user.matchPassword(password))){
-            return next(null, false, { message: "Incorrect Password"});
+            return res.status(404).json({ message: "Incorrect Password"});
         }
         getToken(user, 200, res);
     } catch(error) {
-        next(error)
+        res.json({ message: err.message });
     }
 })
 
