@@ -6,7 +6,8 @@ const port = process.env.PORT || 5000;
 require("dotenv").config({ path: "./config.env" });
 const socketIo =() => require("socket.io")(5001, {
     cors: {
-        origin: ['http://localhost:3000']
+        origin: ['http://localhost:3000'],
+        methods: ['GET', 'POST']
     }
 })
 
@@ -32,10 +33,11 @@ app.use(require('../routes/taxiRoutes'));
 dbo();
 const server = http.Server(app);
 const io = socketIo(server)
-app.listen(port, () => {
+
+// app.listen(port, () => {
     
-    console.log(`Server is running on port: ${port}`);
-});
+//     console.log(`Server is running on port: ${port}`);
+// });
 let interval;
 io.on("connection", (socket) => {
     const id = socket.handshake.query.id
