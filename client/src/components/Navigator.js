@@ -7,6 +7,7 @@ import NavBar from './NavBar';
 import SignUp from './Registeration/driver_form';
 import { RequestsProvider } from '../contexts/RequestsProvider'
 import Footer from './Pages/footer';
+import DriversProfile from './Dashboard/drivers_profile';
 
 function Navigator() {
     
@@ -18,6 +19,7 @@ function Navigator() {
                 <Route path="/login" element={<SignIn />} />
                 <Route path="/register" element={<SignUp />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/editProfile/:id" element={<DriversProfile />} />
             </Routes>
             <Footer />
         </Router>

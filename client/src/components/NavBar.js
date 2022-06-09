@@ -68,11 +68,11 @@ function NavBar() {
                         >
                             <Stack spacing={1} alignItems="center">
                                 <Stack direction="row" spacing={1}>
-                                    {/* <Chip
-                                        avatar={<Avatar alt="Driver Photo" src={location.state.profile_photo}/>}
-                                        label={location.state.first_name}
-                                    /> */}
-                                    {/* {console.log(props.location.state.profile_photo)} */}
+                                    <Chip
+                                        avatar={<Avatar alt="Driver Photo" src={location.state.user.profile_photo}/>}
+                                        label={location.state.user.first_name + " " + location.state.user.last_name}
+                                    />
+                                    {/* {console.log(props.location.state.user.profile_photo)} */}
                                 </Stack>
                             </Stack>
                         </IconButton>
@@ -114,7 +114,9 @@ function NavBar() {
                             <MenuItem>
                                 <Avatar /> My Account
                             </MenuItem>
-                            <MenuItem>
+                            <MenuItem
+                                onClick={console.log("heloo")}
+                            >
                                 <ListItemIcon>
                                     <Logout fontSize='small' />
                                 </ListItemIcon>
@@ -155,6 +157,7 @@ function NavBar() {
                                 noWrap
                                 component="div"
                                 sx={{ flexGrow: 1, display: {xs: 'none', md: 'flex'} }}
+                                onClick={() => { navigate('/')}}
                             >
                                 Real Time Taxi App
                             </Typography>
@@ -199,6 +202,7 @@ function NavBar() {
                                 noWrap
                                 component="div"
                                 sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+                                
                             >
                                 Real Time Taxi App
                             </Typography>

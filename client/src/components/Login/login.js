@@ -4,14 +4,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { Divider } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {Typography, createTheme, ThemeProvider } from '@mui/material';
+import {Typography, createTheme, ThemeProvider, Paper } from '@mui/material';
 import Container from '@mui/material/Container';
+import GoogleIcon from '@mui/icons-material/Google';
+import FacebookIcon from '@mui/icons-material/Facebook';
 // import { createTheme } from '@mui/material/styles';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -55,7 +57,7 @@ export default function SignIn() {
     };
     
     await axios.post(
-      "http://localhost:5001/login/",
+      "http://localhost:5000/login/",
       { 
         email: form.email,
         password: form.password,
@@ -65,7 +67,7 @@ export default function SignIn() {
     .then(function (response){
       console.log(response)
       localStorage.setItem("authToken", response.data.token);
-      navigate('/dashboard',{state:{first_name: response.data.user.first_name, profile_photo: response.data.user.drivers_photo, plate_no: response.data.user.plate_number}});
+      navigate('/dashboard',{state:{user: response.data.user}});
       
     })
     .catch(function (error) {
@@ -89,13 +91,13 @@ export default function SignIn() {
                 }}
             >
     <Container maxWidth="sm" sx={{ mb: 4 }}>
-      <Box
+      <Paper
               sx={{
             marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            
+            p: 4
             
           }}
         >
@@ -130,10 +132,7 @@ export default function SignIn() {
               value={form.password}
               onChange={(e) => updateForm({ password: e.target.value})}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            
             <Button
               type="submit"
               fullWidth
@@ -143,19 +142,33 @@ export default function SignIn() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
+              <Grid item xs sx={{textAlign:"center", pb: 2}}>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <Link onClick={() => {navigate("/register")}} variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
-              </Grid>
+              </Grid> */}
+            </Grid>
+              <Divider>or you can sign in with</Divider>
+            <Grid container sx={{ pt: 3,justifyContent: 'center'}} spacing={2}>
+
+            <Grid item>
+              <Link >
+              <GoogleIcon/>
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link>
+              <FacebookIcon />
+              </Link>
+            </Grid>
             </Grid>
           </Box>
-          </Box>
+          </Paper>
         </Container>
         </Box>
       </ThemeProvider>

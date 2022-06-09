@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useLocation} from 'react-router-dom'
+import { useNavigate, useLocation} from 'react-router-dom'
 import Socketio from "../../contexts/SocketProvider";
 import { Box, Button, Container, createTheme, 
     Grid, Paper, ThemeProvider, Typography } from '@mui/material';
@@ -13,6 +13,7 @@ import { Card } from '@mui/material';
 import { CardContent } from '@mui/material';
 import { CardActions } from '@mui/material';
 import { CardHeader } from '@mui/material';
+import { response } from 'express';
 
 const mdTheme = createTheme();
 const idHolder = uuidV4();
@@ -23,6 +24,7 @@ const idHolder = uuidV4();
 
 
 function Dashboard(props) {
+    const navigate = useNavigate();
     const { responses, createResponses } = useResponses();
     const { socket, getId } = useSocket();
     //const { createResponses } = useResponses();
@@ -101,11 +103,11 @@ function Dashboard(props) {
     
 
     function acceptRequest (passengerId) {
-        socket.emit("request-accepted", driversId, passengerId, location.state.profile_photo, location.state.first_name, location.state.plate_no)
-        createResponses(driversId, passengerId, location.state.profile_photo, location.state.first_name, location.state.plate_no)
+        socket.emit("request-accepted", driversId, passengerId, location.state.user.profile_photo, location.state.user.first_name, location.state.user.plate_no)
+        createResponses(driversId, passengerId, location.state.user.profile_photo, location.state.user.first_name, location.state.user.plate_no)
         //setAcceptFlag(true);
         // Here is the right one
-        // createResponses(passengersId, driversId, location.state.profile_photo, location.state.first_name, location.state.plate_no, messages)
+        // createResponses(passengersId, driversId, location.state.user.profile_photo, location.state.user.first_name, location.state.user.plate_no, messages)
         // add a 
     }
     
@@ -195,6 +197,15 @@ function Dashboard(props) {
                     
                     )}
                     </Grid>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', my: 4 }}>
+                <Button
+                    //type="submit"
+                    variant="contained"
+                    //onClick={() => {navigate('/editProfile/'+location.state._id, {state:{user: response.data.user}})}}
+                >
+                    Submit
+                </Button>
+            </Box>
                 </Container>
             </Box>
         </ThemeProvider>

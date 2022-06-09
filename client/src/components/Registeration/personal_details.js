@@ -91,14 +91,14 @@ const PersonalInfo = (props) => {
                     </label>
                 </Grid>
                 
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <Button
                         variant="contained"
                         component="span"
                         fullWidth>
                         Upload Image
                     </Button>
-                </Grid>
+                </Grid> */}
             </Grid>
         </React.Fragment>
     )

@@ -120,7 +120,7 @@ function Home() {
                             <Typography>
                                 Car's Plate Number: {driversInfo.carsPlateNo}
                             </Typography>
-                                {LinearWithValueLabel()}
+                                {/* {LinearWithValueLabel()} */}
                         </CardContent>
                         
                     </Card>
@@ -131,7 +131,7 @@ function Home() {
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
-                        mt:4, mb: 4,
+                        mt:8, mb: 4,
                     }}
                 >
                     <Typography component="h1" variant="h5" sx={{ mt: 4,textAlign: 'center'}}>

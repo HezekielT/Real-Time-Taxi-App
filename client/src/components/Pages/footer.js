@@ -8,9 +8,9 @@ import Link from '@mui/material/Link';
 function Copyright() {
     return (
       <Typography variant="body2" color="text.secondary">
-        {'Copyright © '}
+        {'Copyright ©  '}
         <Link color="inherit" href="https://mui.com/">
-          Your Website
+          ride-app
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
@@ -37,7 +37,7 @@ const Footer = () => {
       >
         <Container maxWidth="sm">
           <Typography variant="body1">
-            My sticky footer can be found here.
+            Real Time Ride Application
           </Typography>
           <Copyright />
         </Container>
