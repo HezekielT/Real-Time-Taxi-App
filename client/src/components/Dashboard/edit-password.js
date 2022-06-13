@@ -4,13 +4,13 @@ import React from 'react';
 
 const EditPassword = () => {
     return (
-        <Container maxWidth="sm" sx={{ mb: 4 }}>
+        <React.Fragment>
 
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6}, p: { xs: 2, md: 3 } }}>
             <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={12}>
             <Typography
-                    variant="h5"
+                    // variant="h5"
                     sx={{ textAlign: 'center', textDecoration: 'underline'}}
                 >
                 Change Password
@@ -73,7 +73,7 @@ const EditPassword = () => {
                 </Button>
             </Box>
             </Paper>
-        </Container>
+        </React.Fragment>
     );
 };
 

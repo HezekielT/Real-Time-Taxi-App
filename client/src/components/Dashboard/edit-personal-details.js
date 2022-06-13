@@ -8,14 +8,14 @@ function EditPersonalDetails(props) {
 
     const location = useLocation()
     return (
-        <Container maxWidth="sm" sx={{ mb: 4 }}>
+        <React.Fragment>
 
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6}, p: { xs: 2, md: 3 } }}>
             <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={12}>
 
             <Typography
-                variant="h5"
+                // variant="h5"
                 sx={{ textAlign: 'center', textDecoration: 'underline'}}
                 >
                 Personal Details
@@ -33,7 +33,7 @@ function EditPersonalDetails(props) {
                         required
                         fullWidth
                         variant="outlined"
-                        label={location.state.user.first_name}
+                        label={(props.response) ? (props.response.first_name) : ("First Name")}
                         //value={props.form.fname}
                         //onChange={(e) => props.onChange([props.form.fname = e.target.value])}
                     />
@@ -49,7 +49,7 @@ function EditPersonalDetails(props) {
                         required
                         fullWidth
                         variant="outlined"
-                        label={location.state.user.last_name}
+                        label={(props.response) ? (props.response.last_name) : ("Last Name")}
                         //value={props.form.fname}
                         //onChange={(e) => props.onChange([props.form.fname = e.target.value])}
                     />
@@ -65,7 +65,7 @@ function EditPersonalDetails(props) {
                         required
                         fullWidth
                         variant="outlined"
-                        label={location.state.user.email}
+                        label={(props.response) ? (props.response.email) : ("Email")}
                         //value={props.form.fname}
                         //onChange={(e) => props.onChange([props.form.fname = e.target.value])}
                     />
@@ -81,7 +81,7 @@ function EditPersonalDetails(props) {
                         required
                         fullWidth
                         variant="outlined"
-                        label={location.state.user.drivers_licence_no}
+                        label={(props.response) ? (props.response.drivers_licence_no) : ("Licence Number")}
                         //value={props.form.fname}
                         //onChange={(e) => props.onChange([props.form.fname = e.target.value])}
                     />
@@ -97,7 +97,7 @@ function EditPersonalDetails(props) {
                         required
                         fullWidth
                         variant="outlined"
-                        label={location.state.user.phoneno}
+                        label={(props.response) ? (props.response.phoneno) : ("Phone Number")}
                         //value={props.form.fname}
                         //onChange={(e) => props.onChange([props.form.fname = e.target.value])}
                     />
@@ -116,7 +116,7 @@ function EditPersonalDetails(props) {
                 </Button>
             </Box>
         </Paper>
-        </Container>
+        </React.Fragment>
     );
 }
 

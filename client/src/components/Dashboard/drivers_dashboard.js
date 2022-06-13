@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import { useNavigate, useLocation} from 'react-router-dom'
-import Socketio from "../../contexts/SocketProvider";
+import { useNavigate, useLocation} from 'react-router-dom';
 import { Box, Button, Container, createTheme, 
-    Grid, Paper, ThemeProvider, Typography } from '@mui/material';
+    Grid, Link, Paper, ThemeProvider, Typography, Avatar, Divider, Tabs, Tab } from '@mui/material';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { List, ListItem } from '@mui/material';
 import { v4 as uuidV4 } from "uuid";
@@ -13,7 +12,7 @@ import { Card } from '@mui/material';
 import { CardContent } from '@mui/material';
 import { CardActions } from '@mui/material';
 import { CardHeader } from '@mui/material';
-import { response } from 'express';
+import PropTypes from 'prop-types';
 
 const mdTheme = createTheme();
 const idHolder = uuidV4();
@@ -22,14 +21,48 @@ const idHolder = uuidV4();
 //     console.log("your Socket id of dashboard ", socket.id)
 // })
 
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return(
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`vertical-tabpanel-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{ p: 3}}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    )
+}
+
+TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
+}
+
+function tabProps(index) {
+    return {
+        id: `vertical-tab-${index}`,
+        'aria-controls': `vertical-tabpanel-${index}`,
+    };
+}
 
 function Dashboard(props) {
+    const [value, setValue ] = React.useState(0);
+    
     const navigate = useNavigate();
     const { responses, createResponses } = useResponses();
     const { socket, getId } = useSocket();
     //const { createResponses } = useResponses();
     const { requests, createRequests } = useRequests();
     const location = useLocation();
+    const data = location.state.user;
     const [driversId, setDriversId] = useLocalStorage('driver-id');
 
     // const [ availableRequests, setAvailableRequests ] = useLocalStorage('Available-Requests', []);
@@ -52,6 +85,9 @@ function Dashboard(props) {
             return {id, from, to}
         })
         
+    }
+    const handleChange = (event, newValue ) => {
+        setValue(newValue);
     }
     
     // const txt="alright I'm gonna be there"
@@ -103,8 +139,8 @@ function Dashboard(props) {
     
 
     function acceptRequest (passengerId) {
-        socket.emit("request-accepted", driversId, passengerId, location.state.user.profile_photo, location.state.user.first_name, location.state.user.plate_no)
-        createResponses(driversId, passengerId, location.state.user.profile_photo, location.state.user.first_name, location.state.user.plate_no)
+        socket.emit("request-accepted", driversId, passengerId, location.state.user.drivers_photo, location.state.user.first_name, location.state.user.car.plate_number)
+        createResponses(driversId, passengerId, location.state.user.drivers_photo, location.state.user.first_name, location.state.user.car.plate_number)
         //setAcceptFlag(true);
         // Here is the right one
         // createResponses(passengersId, driversId, location.state.user.profile_photo, location.state.user.first_name, location.state.user.plate_no, messages)
@@ -170,7 +206,8 @@ function Dashboard(props) {
                 }}
             >
                 <Container maxWidth="lg" sx={{ mt:4, mb: 4, }}>
-                    <Grid item md={8} lg={9}>
+                    <Grid container spacing={2}>
+                    <Grid item xs={12} md={12} lg={9}>
                     <Paper
                         sx={{
                             display: 'flex',
@@ -197,15 +234,58 @@ function Dashboard(props) {
                     
                     )}
                     </Grid>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', my: 4 }}>
-                <Button
-                    //type="submit"
-                    variant="contained"
-                    //onClick={() => {navigate('/editProfile/'+location.state._id, {state:{user: response.data.user}})}}
-                >
-                    Submit
-                </Button>
-            </Box>
+                    <Grid item md={3} lg={3} xl={3}
+                            sx={{
+                                height: '80vh',
+                            }}
+                        >
+                            <Card 
+                                sx={{
+                                    display: {xs: 'none', lg:'flex', xl: 'flex'},
+                                    flexDirection: 'column',
+                                    height: '76vh',
+                                    mt: 4,
+                                    mb: 4, 
+                                    ml: 4,
+                                }}
+                            >
+                                <Button 
+                                    variant="h5" 
+                                    sx={{textAlign: 'center', display: 'flex', flexDirection: 'column', mx: 2, my: 2}}
+                                    clickable="true"
+                                    onClick={() => navigate(`/editProfile/${location.state.user._id}`)}
+                                >
+                                {(location.state.user.drivers_photo) ? 
+                                (<Avatar 
+                                sx={{ m: 4, width: 150, height: 150, }}
+                                alt="Driver Photo" src={location.state.user.drivers_photo}
+                                />) : (
+                                <Avatar 
+                                sx={{ m: 4, width: 150, height: 150, }}
+                                src="/broken-image.jpg" 
+                                />
+                                )}
+                                
+                                    <Link
+                                        onClick={() => navigate(`/editProfile/${location.state.user._id}`)}
+                                    >
+                                        {location.state.user.first_name + " "+location.state.user.last_name}
+                                    </Link>
+                                </Button>
+                                <Typography variant="secondary" sx={{textAlign: 'center'}}>Rating: N/A</Typography>
+                                <Divider sx={{ my: 1, mr: 2 }}/>
+                                <Tabs
+                                    orientation='vertical'
+                                    value={value}
+                                    onChange={handleChange}
+                                    aria-label="Vertical Tabs"
+                                    sx={{ borderRight: 1, borderColor: 'divider' }}
+                                >
+                                    <Tab label="Nearby Requests" {...tabProps(0)}/>
+                                    <Tab label="My Ride History" {...tabProps(0)}/>
+                                </Tabs>
+                            </Card>
+                        </Grid></Grid>
                 </Container>
             </Box>
         </ThemeProvider>

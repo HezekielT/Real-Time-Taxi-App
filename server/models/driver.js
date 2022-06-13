@@ -53,7 +53,7 @@ const DriversSchema = new mongoose.Schema({
     },
     drivers_photo: {
         type: String,
-        //required: [true, "Please upload your photo"]
+        required: [true, "Please upload your photo"]
     },
     drivers_licence_no: {
         type: String,

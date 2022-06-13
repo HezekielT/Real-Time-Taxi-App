@@ -1,19 +1,20 @@
 import { Box, Paper, Typography, Card, Avatar,Container,
      Grid, Divider, ThemeProvider, createTheme, Tabs, Tab } from '@mui/material';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import EditCarDetails from './edit-car-details';
 import EditPassword from './edit-password';
 import EditPersonalDetails from './edit-personal-details';
 
+const axios = require("axios");
 const mdTheme = createTheme();
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
     return(
-        <div
+        <Paper maxWidth="sm" sx={{ mb: 4 }}
             role="tabpanel"
             hidden={value !== index}
             id={`vertical-tabpanel-${index}`}
@@ -24,7 +25,7 @@ function TabPanel(props) {
                     <Typography>{children}</Typography>
                 </Box>
             )}
-        </div>
+        </Paper>
     )
 }
 
@@ -43,9 +44,28 @@ function tabProps(index) {
 const DriversProfile = () => {
     const [value, setValue ] = React.useState(0);
     const location = useLocation();
+    const dId = useParams();
+    const [responseData, setResponseData] = useState(null)
     const handleChange = (event, newValue ) => {
         setValue(newValue);
     }
+    const config = {
+        header: {
+            "Content-Type": "application/json",
+        },
+      };
+    useEffect(async () => {
+        await axios.post(
+            "http://localhost:5000/dId",
+            config
+          )
+          .then(function (response){
+            setResponseData(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+    },[responseData])
     return (
         <ThemeProvider theme={mdTheme}>
             <Box
@@ -61,7 +81,7 @@ const DriversProfile = () => {
                 }}
             >
                 <Container maxWidth="xl" sx={{ mt:4, mb: 4, }}>
-                    <Grid item md={10} lg={10} xl={12} sx={{ justifyContent: 'center'}}>
+                    <Grid item md={12} lg={12} xl={12} sx={{ justifyContent: 'center'}}>
                         <Paper
                             sx={{
                                 display: 'flex',
@@ -74,7 +94,7 @@ const DriversProfile = () => {
                         </Paper>
                     </Grid>
                     <Grid container spacing={2}>
-                        <Grid item md={8} lg={8} xl={2}
+                        <Grid item md={3} lg={3} xl={3}
                             sx={{
                                 height: '80vh',
                             }}
@@ -89,16 +109,18 @@ const DriversProfile = () => {
                                     pl: 2
                                 }}
                             >
-                                {(location.state.user.profile_photo) ? 
+                                {console.log(responseData)}
+                                {(responseData && responseData.drivers_photo) ? 
                                 (<Avatar 
-                                sx={{ m: 4, width: 150, height: 150, }}
-                                alt="Driver Photo" src={location.state.user.profile_photo}
+                                sx={{ width: 150, height: 150, ml: 11, my: 4 }}
+                                alt="Driver Photo" 
+                                src={responseData.drivers_photo}
                                 />) :
-                                <Avatar 
-                                sx={{ m: 4, width: 150, height: 150, }}
+                                (<Avatar 
+                                sx={{ width: 150, height: 150, ml: 11, my: 4 }}
                                 src="/broken-image.jpg" 
-                                />
-                                }
+                                />) 
+                                } 
                                 
                                 
                                 <Divider sx={{ my: 1, mr: 2 }}/>
@@ -116,7 +138,7 @@ const DriversProfile = () => {
                                 
                             </Card>
                         </Grid>
-                        <Grid item md={4} lg={4} xl={10}
+                        <Grid item xs={9} md={9} lg={9}
                             sx={{
                                 height: '80vh',
                             }}
@@ -131,13 +153,13 @@ const DriversProfile = () => {
                                 }}
                             >
                                 <TabPanel value={value} index={0}>
-                                    <EditPersonalDetails />
+                                    <EditPersonalDetails response={responseData}/>
                                 </TabPanel>
                                 <TabPanel value={value} index={1}>
                                     <EditPassword />
                                 </TabPanel>
                                 <TabPanel value={value} index={2}>
-                                    <EditCarDetails />
+                                    <EditCarDetails response={responseData}/>
                                 </TabPanel>
                             </Card> 
                         </Grid>

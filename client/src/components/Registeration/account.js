@@ -23,8 +23,8 @@ const Account = (props) => {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="phoneno"
-                        name="phoneno"
+                        // id="phoneno"
+                        // name="phoneno"
                         label="Phone Number"
                         fullWidth
                         autoComplete="Phone Number"
@@ -36,8 +36,8 @@ const Account = (props) => {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="password"
-                        name="password"
+                        // id="password"
+                        // name="password"
                         label="Password"
                         fullWidth
                         autoComplete="password"
@@ -51,8 +51,8 @@ const Account = (props) => {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="confirm_psd"
-                        name="cpassword"
+                        // id="confirm_psd"
+                        // name="cpassword"
                         label="Confirm Password"
                         fullWidth
                         autoComplete="confirm password"

@@ -149,7 +149,6 @@ function Home() {
                                     fullWidth
                                     id="pickUp"
                                     label="Pick Up Location: "
-                                    name="pickuplocation"
                                     value={inputLocation.pickUp}
                                     onChange={(e) => {getLocationInput({pickUp: e.target.value})}}
                                     autoFocus
@@ -166,7 +165,6 @@ function Home() {
                                     fullWidth
                                     id="destination"
                                     label="Destination Location: "
-                                    name="dest_location"
                                     value={inputLocation.destination}
                                     onChange={(e) => {getLocationInput({destination: e.target.value})}}
                                 />

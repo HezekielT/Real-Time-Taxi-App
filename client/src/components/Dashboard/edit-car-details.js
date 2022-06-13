@@ -3,16 +3,16 @@ import { Typography, Box, Button, Grid,
 import { useLocation } from 'react-router-dom';
 import React from 'react';
 
-const EditCarDetails = () => {
+const EditCarDetails = (props) => {
     const location = useLocation();
     return (
-        <Container maxWidth="sm" sx={{ mb: 4 }}>
+        <React.Fragment>
 
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6}, p: { xs: 2, md: 3 } }}>
             <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={12}>
             <Typography
-                variant="h5"
+                // variant="h5"
                 sx={{ textAlign: 'center', textDecoration: 'underline'}}
             >
                 Car's Detail:
@@ -31,7 +31,7 @@ const EditCarDetails = () => {
                         required
                         fullWidth
                         variant="outlined"
-                        label={location.state.user.car.model}
+                        label={(props.response) ? (props.response.car.model) : ("Car's Model")}
                         //value={props.form.fname}
                         //onChange={(e) => props.onChange([props.form.fname = e.target.value])}
                     />
@@ -48,7 +48,7 @@ const EditCarDetails = () => {
                         required
                         fullWidth
                         variant="outlined"
-                        label={location.state.user.car.plate_number}
+                        label={(props.response) ? (props.response.car.plate_number) : ("Plate Number")}
                         //value={props.form.fname}
                         //onChange={(e) => props.onChange([props.form.fname = e.target.value])}
                     />
@@ -64,7 +64,7 @@ const EditCarDetails = () => {
                         required
                         fullWidth
                         variant="outlined"
-                        label={location.state.user.car.insurance_company}
+                        label={(props.response) ? (props.response.car.insurance_company) : ("Insurance Company")}
                         //value={props.form.fname}
                         //onChange={(e) => props.onChange([props.form.fname = e.target.value])}
                     />
@@ -82,7 +82,7 @@ const EditCarDetails = () => {
                 </Button>
             </Box>
             </Paper>
-            </Container>
+            </React.Fragment>
     );
 };
 

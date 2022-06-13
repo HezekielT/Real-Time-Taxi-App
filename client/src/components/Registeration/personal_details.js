@@ -32,8 +32,8 @@ const PersonalInfo = (props) => {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="fname"
-                        name="fname"
+                        // id="fname"
+                        // name="fname"
                         label="First Name"
                         fullWidth
                         autoComplete="first name"
@@ -45,8 +45,8 @@ const PersonalInfo = (props) => {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="lname"
-                        name="lname"
+                        // id="lname"
+                        // name="lname"
                         label="Last Name"
                         fullWidth
                         autoComplete="last name"
@@ -58,8 +58,8 @@ const PersonalInfo = (props) => {
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="licenceNo"
-                        name="licenceNo"
+                        // id="licenceNo"
+                        // name="licenceNo"
                         label="Licence Number"
                         fullWidth
                         autoComplete="Licence Number"
