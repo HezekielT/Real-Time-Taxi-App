@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import { AppBar, Button, Container, CssBaseline, Link, Paper, Step, StepLabel, Stepper, Toolbar, Typography, Box } from "@mui/material";
 import Account from "./account";
 import PersonalInfo from "./personal_details";
@@ -14,6 +15,7 @@ const steps = ["Create Account","Personal Details", "Car's Details"];
 const theme = createTheme();
 
 export default function SignUp() {
+    const navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
     const [form, setForm] = useState({
 
@@ -70,14 +72,11 @@ export default function SignUp() {
         const config = {
             header: {
                 "Content-Type": "application/json",
-                cors: {
-                    origin: ['http://localhost:3000']
-                }
             },
         };
         
         await axios.post(
-            "http://localhost:5001/register",
+            "http://localhost:5000/register",
             {
                 first_name: form.fname,
                 last_name: form.lname,
@@ -91,7 +90,9 @@ export default function SignUp() {
                 insurance_company: form.cars_insurance_company,
             },
             config
-        )        
+        ).then(function (){
+            navigate('/login');
+        })        
         
     };
 
@@ -113,7 +114,7 @@ export default function SignUp() {
                 <Container maxWidth="sm" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6}, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center">
-                        Sign Up
+                        Sign Up to Drive
                     </Typography>
                     <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
                         {steps.map((label) => (

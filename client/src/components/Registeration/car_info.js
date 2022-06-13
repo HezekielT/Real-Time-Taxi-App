@@ -10,8 +10,8 @@ const CarInfo = (props) => {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="cmodel"
-                        name="carmodel"
+                        // id="cmodel"
+                        // name="carmodel"
                         label="Car's Model"
                         fullWidth
                         autoComplete="car's model"
@@ -23,8 +23,8 @@ const CarInfo = (props) => {
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="plateno"
-                        name="plateno"
+                        // id="plateno"
+                        // name="plateno"
                         label="Plate Number"
                         fullWidth
                         autoComplete="plate no"
@@ -36,8 +36,8 @@ const CarInfo = (props) => {
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="insurance"
-                        name="insurance"
+                        // id="insurance"
+                        // name="insurance"
                         label="Insurance Company Name"
                         fullWidth
                         autoComplete="Insurance Company"

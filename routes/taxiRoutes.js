@@ -24,7 +24,9 @@ driverRouter.route('/login').post(
         failureFlash: true,
 }));
 */
-
+driverRouter.route('/:id').get(getDriver, (req, res) => {
+    res.send(res.carDriver)
+})
 
 driverRouter.route('/register').post(async function(req, res) {
     const { first_name, last_name, drivers_licence_no, drivers_photo,
@@ -78,7 +80,20 @@ driverRouter.route('/login').post(async function(req, res) {
 // driverRouter.route('/Home').get();
 
 // driverRouter.route('/Home/Edit-Profile').get();
-
+async function getDriver(req, res, next){
+    let carDriver
+    try {
+        carDriver = await Driver.findById(req.params.id)
+        if (carDriver == null) {
+            return res.status(404).json({ message: 'Cannot find driver'})
+        }
+        console.log("Yess")
+    } catch (err) {
+        return res.status(500).json({ message: err.message })
+    }
+    res.carDriver = carDriver
+    next()
+}
 function getToken(user, statusCode, res){
     const token = user.getSignedJwtToken();
     const fname = user.first_name 

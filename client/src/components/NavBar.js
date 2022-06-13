@@ -1,4 +1,4 @@
-import { AppBar, Box, Container, 
+import { AppBar, Box, Container, Button,
     IconButton, Menu, MenuItem, Toolbar, Typography, createTheme, ThemeProvider, CssBaseline, ListItemIcon } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu'
@@ -16,8 +16,27 @@ function NavBar() {
     const navigate = useNavigate();
     const [conditionalComp, setConditionalComp] = useState(null)
     
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
+    const [anchorElPro, setAnchorElPro] = useState(null);
+    const open = Boolean(anchorElPro);
+
+    const [anchorElNav, setAnchorElNav] = useState(null);
+
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+      };
+      
+    const handleClick = (event) => {
+        console.log("gag")
+        setAnchorElPro(event.currentTarget);
+        console.log(anchorElPro)
+    }
+    const handleClose = () => {
+        setAnchorElPro(null);
+    }
 
     useEffect(
         () => {
@@ -54,94 +73,65 @@ function NavBar() {
                         </Stack>
                     )
             }
-            else if(location.pathname === "/dashboard"){
-                setConditionalComp
-                (
-                    <Box sx={{ display: 'flex',}}>
-                        <IconButton
-                            onClick={handleClick}
-                            size="small"
-                            sx={{ ml:2 }}
-                            aria-controls={open ? 'account-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                        >
-                            <Stack spacing={1} alignItems="center">
-                                <Stack direction="row" spacing={1}>
-                                    {/* <Chip
-                                        avatar={<Avatar alt="Driver Photo" src={location.state.profile_photo}/>}
-                                        label={location.state.first_name}
-                                    /> */}
-                                    {/* {console.log(props.location.state.profile_photo)} */}
-                                </Stack>
-                            </Stack>
-                        </IconButton>
-                        <Menu
-                            anchorEl={anchorEl}
-                            id="account-menu"
-                            open={open}
-                            onClose={handleClose}
-                            onClick={handleClose}
-                            PaperProps={{
-                                elevation: 0,
-                                sx: {
-                                    overflow: 'visible',
-                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                                    mt: 1.5,
-                                    '& .MuiAvatar-root': {
-                                        width: 32,
-                                        height: 32,
-                                        ml: -0.5,
-                                        mr: 1,
-                                    },
-                                    '&:before': {
-                                        content: '""',
-                                        display: 'block',
-                                        position: 'absolute',
-                                        top: 0,
-                                        right: 14,
-                                        width: 10,
-                                        height: 10,
-                                        bgcolor: 'background.paper',
-                                        transform: 'translateY(-50%) rotate(45deg)',
-                                        zIndex: 0,
-                                    }
-                                }
-                            }}
-                            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                        >
-                            <MenuItem>
-                                <Avatar /> My Account
-                            </MenuItem>
-                            <MenuItem>
-                                <ListItemIcon>
-                                    <Logout fontSize='small' />
-                                </ListItemIcon>
-                                Logout
-                            </MenuItem>
-                        </Menu>
-                    </Box>
-                )
-            }
+            // else if(location.pathname === "/dashboard"){
+            //     setConditionalComp
+            //     (
+            //         <Box sx={{ display: 'flex',}}>
+            //             <IconButton
+            //                 aria-controls='account-menu'
+            //                 aria-haspopup="true"
+            //                 onClick={handleClick}
+            //                 size="large"
+            //                 sx={{ ml:2 }}
+            //             >
+            //                 {/* <Stack spacing={1} alignItems="center">
+            //                     <Stack direction="row" spacing={1}>
+            //                         <Chip
+            //                             avatar={<Avatar alt="Driver Photo" />}
+            //                             // src={location.state.user.profile_photo}/>}
+            //                             // label={location.state.user.first_name + " " + location.state.user.last_name}
+            //                             label="HOKJO"
+            //                         />
+            //                     </Stack>
+            //                 </Stack> */}
+            //                 <MenuIcon />
+            //             </IconButton>
+            //             <Menu
+            //                 id='account-menu'
+            //                 anchorEl={anchorElPro}
+            //                 anchorOrigin={{
+            //                     vertical: 'bottom',
+            //                     horizontal: 'left',
+            //                 }}
+            //                 keepMounted
+            //                 transformOrigin={{
+            //                     vertical: 'top',
+            //                     horizontal: 'left',
+            //                 }}
+            //                 open={open}
+            //                 onClose={handleClose}
+            //                 sx={{
+            //                         display: { xs: 'block', md: 'none' },
+            //                     }}
+            //                 >
+            //                 <MenuItem>
+            //                     <Avatar /> My Account
+            //                 </MenuItem>
+            //                 <MenuItem
+            //                     onClick={() =>console.log("heloo")}
+            //                 >
+            //                     <ListItemIcon>
+            //                         <Logout fontSize='small' />
+            //                     </ListItemIcon>
+            //                     Logout
+            //                 </MenuItem>
+            //             </Menu>
+            //         </Box>
+            //     )
+            // }
         },[location.pathname]
     )
-    const [anchorElNav, setAnchorElNav] = useState(null);
-
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-      };
-      
-    const handleClick = (e) => {
-        setAnchorEl(e.currentTarget);
-    }
-    const handleClose = () => {
-        setAnchorEl(null);
-    }
+    
       
     return (
         <ThemeProvider theme={mdTheme}>
@@ -155,6 +145,7 @@ function NavBar() {
                                 noWrap
                                 component="div"
                                 sx={{ flexGrow: 1, display: {xs: 'none', md: 'flex'} }}
+                                onClick={() => { navigate('/')}}
                             >
                                 Real Time Taxi App
                             </Typography>
@@ -199,11 +190,66 @@ function NavBar() {
                                 noWrap
                                 component="div"
                                 sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+                                
                             >
                                 Real Time Taxi App
                             </Typography>
                             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-                                {conditionalComp}
+                                {location.pathname === "/dashboard" || location.pathname === "/editProfile/:id" ? 
+                                (
+                                    <Box sx={{ flexGrow: 0,  }}>
+                                <IconButton
+                                    aria-controls='account-menu'
+                                    aria-haspopup="true"
+                                    onClick={handleClick}
+                                    size="large"
+                                    sx={{ ml:2 }}
+                                >
+                                    <Stack spacing={1} alignItems="center">
+                                        <Stack direction="row" spacing={1}>
+                                            <Chip
+                                                avatar={<Avatar alt="Driver Photo" src={location.state.user.drivers_photo}/>}
+                                                label={location.state.user.first_name + " " + location.state.user.last_name}
+                                            />
+                                            {/* {console.log(props.location.state.user.profile_photo)} */}
+                                        </Stack>
+                                    </Stack>
+                                </IconButton>
+                                <Menu
+                                    id="account-menu"
+                                    anchorEl={anchorElPro}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                                    open={open}
+                                    onClose={handleClose}
+                                    sx={{
+                                            display: { xs: 'block', md: 'block' },
+                                        }}
+                                    >
+                                    <MenuItem
+                                        onClick={() => navigate(`/editProfile/${location.state.user._id}`, {state: {userData: location.state.user}})}
+                                    >
+                                        <Avatar sx={{ mr: 2}}/>  My Account
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => console.log("heloo")}
+                                    >
+                                        <ListItemIcon sx={{ mr: 2}}>
+                                            <Logout fontSize='small' sx={{ml: 2}}/>
+                                        </ListItemIcon>
+                                        Logout
+                                    </MenuItem>
+                                </Menu>
+                            </Box>
+                                ) : 
+                                (conditionalComp)}
                             </Box>
                         </Toolbar>
                     </Container>

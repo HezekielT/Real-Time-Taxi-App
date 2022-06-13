@@ -4,13 +4,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright() {
+  const navigate = useNavigate();
     return (
       <Typography variant="body2" color="text.secondary">
-        {'Copyright © '}
-        <Link color="inherit" href="https://mui.com/">
-          Your Website
+        {'Copyright ©  '}
+        <Link color="inherit" onClick={() => navigate('/')}>
+          ride-app
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
@@ -37,7 +39,7 @@ const Footer = () => {
       >
         <Container maxWidth="sm">
           <Typography variant="body1">
-            My sticky footer can be found here.
+            Real Time Ride Application
           </Typography>
           <Copyright />
         </Container>
